@@ -1,53 +1,89 @@
 import React from "react";
+import API from "../services/api";
 
-function SignUp(){
-    return(
+function SignUp() {
+ 
+    const [fromData,setFormData]=useState({
+        name:"",
+        password:"",
+        role:"member",
+    });
+
+    const handleChange =(e)=>{
+        setFormData({
+            ...fromData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+
+        const res= await fetch(`${API} /api/register`,{
+            method: "POST",
+            headers:{
+                "Content-Type":"application/json",
+            },
+            body:JSON.stringify(fromData),
+        });
+
+        const data = await res.json();
+        if(res.ok){
+            alert("registered Successfully");
+
+        }else{
+            alert(data.message);
+        }
+    }
+
+
+    return (
         <>
-        
-        <div 
-        className="min-h-screen  flex items-center bg-blue-200 justify-center"
-        
-        >
-            <div 
-            className="w-full max-w-sm rounded-3xl bg-black text-white shadow-lg p-5"
+
+            <div
+                className="min-h-screen  flex items-center bg-blue-200 justify-center"
+
             >
-                <h1
-                className="font-semibold mb-4 text-3xl text-center"
+                <div
+                    className="w-full max-w-sm rounded-3xl bg-black text-white shadow-lg p-5"
                 >
-                SignUp
-                </h1>
+                    <h1
+                        className="font-semibold mb-4 text-3xl text-center"
+                    >
+                        SignUp
+                    </h1>
 
-                <form 
-                
-                >
+                    <form
+                     onSubmit={handleSubmit}
+                    >
 
-               <input type="text" placeholder="Enter name" 
-               className="w-full p-2  rounded border-amber-300 bg-blue-300"
-               />
-               <input type="password" placeholder="Enter Password" 
-               className="w-full p-2 rounded bg-blue-300 mt-4"
-               />
-               <select  name="role" 
-               className="w-full p-2 text-white rounded mt-3 mb-3 bg-blue-300"
-               > <option value="member">Member</option>
-                 <option value="admin">Admin</option></select>
+                        <input type="text" placeholder="Enter name" name="name" value={fromData.name} onChange={handleChange}
+                            className="w-full p-2  rounded border-amber-300 bg-blue-300"
+                        />
+                        <input type="password" placeholder="Enter Password" name="password" value={fromData.password} onChange={handleChange}
+                            className="w-full p-2 rounded bg-blue-300 mt-4"
+                        />
+                        <select name="role" value={fromData.role} onChange={handleChange}
+                            className="w-full p-2 text-white rounded mt-3 mb-3 bg-blue-300"
+                        > <option value="member">Member</option>
+                            <option value="admin">Admin</option></select>
 
-               <button type="submit" className="w-full rounded p-2 bg-blue-400 font-semibold hover:bg-blue-500">
-                SignUp
-               </button>
-               <p>if already SingUp  {"/"}</p>
-               <a href="/" 
+                        <button type="submit" className="w-full rounded p-2 bg-blue-400 font-semibold hover:bg-blue-500">
+                            SignUp
+                        </button>
+                        <p>if already SingUp  {"/"}</p>
+                        <a href="/"
                             className="text-blue-300 hover:underline">
                             Login
-                </a> 
+                        </a>
 
 
 
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-        
+
         </>
     )
 }
