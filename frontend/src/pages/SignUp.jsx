@@ -3,15 +3,16 @@ import API from "../services/api";
 
 function SignUp() {
  
-    const [fromData,setFormData]=useState({
+    const [formData,setFormData]=useState({
         name:"",
+        email:"",
         password:"",
         role:"member",
     });
 
     const handleChange =(e)=>{
         setFormData({
-            ...fromData,
+            ...formData,
             [e.target.name]: e.target.value,
         });
     };
@@ -19,7 +20,7 @@ function SignUp() {
     const handleSubmit = async (e)=>{
         e.preventDefault();
 
-        const res= await fetch(`${API} /api/register`,{
+        const res= await fetch(`${API}/api/register`,{
             method: "POST",
             headers:{
                 "Content-Type":"application/json",
@@ -57,13 +58,13 @@ function SignUp() {
                      onSubmit={handleSubmit}
                     >
 
-                        <input type="text" placeholder="Enter name" name="name" value={fromData.name} onChange={handleChange}
+                        <input type="text" placeholder="Enter name" name="email" value={formData.name} onChange={handleChange}
                             className="w-full p-2  rounded border-amber-300 bg-blue-300"
                         />
-                        <input type="password" placeholder="Enter Password" name="password" value={fromData.password} onChange={handleChange}
+                        <input type="password" placeholder="Enter Password" name="password" value={formData.password} onChange={handleChange}
                             className="w-full p-2 rounded bg-blue-300 mt-4"
                         />
-                        <select name="role" value={fromData.role} onChange={handleChange}
+                        <select name="role" value={formData.role} onChange={handleChange}
                             className="w-full p-2 text-white rounded mt-3 mb-3 bg-blue-300"
                         > <option value="member">Member</option>
                             <option value="admin">Admin</option></select>

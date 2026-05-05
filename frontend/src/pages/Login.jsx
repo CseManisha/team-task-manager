@@ -17,18 +17,33 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (form.email === "admin@gmail.com") {
-            localStorage.setItem("role", "admin");
+      const res = await fetch(`${api}/api/login`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if(res.ok){
+        localStorage.setItem("token",data.token);
+        localStorage.setItem("role",data.role);
+
+        if(data.role === "admin"){
             navigate("/dashboard");
-        } else {
-            localStorage.setItem("role", "member");
+        }else{
             navigate("/task");
         }
+      }else{
+        alert(data.message);
+      }
 
     }
     return (
         <>
-            <div className="  min-h-screen  flex itmes-center justify-center bg-gray-300">
+            <div className="  min-h-screen  flex items-center justify-center bg-gray-300">
                 <div className=" w-full max-w-sm bg-black text-white shadow-lg p-5 rounded-2xl  ">
 
                     <h2 className="   mb-4 font-semibold text-center text-3xl">Login here</h2>
