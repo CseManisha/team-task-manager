@@ -1,36 +1,61 @@
-import express from "express";
-import User from "../models/user.js";
-import bcrypt from "bcryptjs";
+import express from "express"
+import bcrypt from "bcryptjs"
+import User from "../models/user"
+import { use } from "react";
 
 const router = express.Router();
 
-router.post("/login",async(req,res) =>{
-
-    const {email,password}=req.body;
-   
-
-    // check user exist or not
-    const person =await User.findOne({email});
-    if(!person){
-        return res.status(400).json({msg:" Person Not Found"})
+router.post("/signup", async(req, res) => {
+    const {name,email,password,role}=req.body;
+    const exist = await User.findOne({email});
+    if(exist){
+        return res.status(400).json({msg:"user already exists"})
     }
 
-    //check password
-    const isCorrect = await bcrypt.compare(password,person.password);
-    if(!isCorrect){
-        return res.status(400).json({msg:"password is incorrect please write valid password"})
+    const hashed= await bcrypt.hash(password,10);
+
+    await User.create({
+        name,
+        email,
+        password:hashed,
+        role,
+    });
+    res.json({msg:"redister successfully"})
+})
+
+router.post("/login", async (req,res)=>{
+    const {emai,password}=req.body;
+
+    const user = await User.findOne({email});
+    if(!user){
+        return res.status(400).json({msg:"incorrect email"});
     }
 
-    // storing user in session
-   req.session.person={
-    id:person.id,
-    email:person.email,
-    role:person.role
-   };
+    const match = await bcrypt.compare(password,user.password);
+    if(!match){
+        return res.status(400).json({msg:"incorrect password"});
+    }
 
-   //send response
-   res.json({msg:"Login successfully"});
-   res.status(500).json({msg:"server might not working please after some time"})
+    req.session.user ={
+        id:user.id,
+        role:user.role,
+    };
+    res.json({
+        message:"Login success",
+        role:user.role,
+    });
+})
 
-} );
+router.post("/logout",(req,res) =>{
+    req.session.destroy();
+    res.json({msg:"logged out"})
+});
+
+router.get("/me",(req,res)=>{
+    if(!req.session.user){
+        return res.status(401).json({message:"not logged in"})
+    }
+    res.json(req.session.user);
+});
+
 export default router;
