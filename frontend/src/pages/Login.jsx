@@ -14,7 +14,7 @@ function Login() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
 
       const res = await fetch(`${api}/api/login`,{
@@ -43,10 +43,10 @@ function Login() {
     }
     return (
         <>
-            <div className="  min-h-screen  flex items-center justify-center bg-gray-300">
+            <div className="  min-h-screen  flex items-center justify-center bg-purple-100">
                 <div className=" w-full max-w-sm bg-black text-white shadow-lg p-5 rounded-2xl  ">
 
-                    <h2 className="   mb-4 font-semibold text-center text-3xl">Login here</h2>
+                    <h2 className="   mb-4 font-semibold text-center text-3xl">Login Here</h2>
 
 
                     <form className="space-y-4"
@@ -56,7 +56,7 @@ function Login() {
                         <div>
                             <label className="text-sm mb-1 block">Email</label>
                             <input
-                                className="w-full rounded-lg px-3 py-2 text-black bg-blue-200"
+                                className="w-full rounded-lg px-3 py-2 text-black bg-purple-400"
                                 type="email" placeholder="ganga123@gmail.com" name="email" value={form.email}
                                 onChange={handleChange}
                             />
@@ -66,7 +66,7 @@ function Login() {
 
                             <label className="text-sm mb-2 block"> password </label>
                             <input
-                                className="w-full rounded-lg px-3 py-2 bg-blue-200 text-black focus:outline-none"
+                                className="w-full rounded-lg px-3 py-2 bg-purple-400 text-black focus:outline-none"
                                 type="password" placeholder="Password"  value={form.password} name="password" onChange={handleChange}
 
                             />
@@ -76,7 +76,7 @@ function Login() {
 
                         <div>
                             <button
-                                className="w-full bg-blue-300 text-white rounded-xl  mt-4 py-2 hover:bg-blue-400"
+                                className="w-full bg-purple-300 text-white rounded-xl  mt-4 py-2 hover:bg-purple-600"
                             >Login</button>
                         </div>
 

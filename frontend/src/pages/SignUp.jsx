@@ -1,9 +1,10 @@
 import React from "react";
 import API from "../services/api";
+import { useState } from "react";
 
 function SignUp() {
  
-    const [formData,setFormData]=useState({
+    const [formData,setFormData]= useState({
         name:"",
         email:"",
         password:"",
@@ -42,7 +43,7 @@ function SignUp() {
         <>
 
             <div
-                className="min-h-screen  flex items-center bg-blue-200 justify-center"
+                className="min-h-screen  flex items-center bg-purple-100 justify-center"
 
             >
                 <div
@@ -59,17 +60,17 @@ function SignUp() {
                     >
 
                         <input type="text" placeholder="Enter name" name="email" value={formData.name} onChange={handleChange}
-                            className="w-full p-2  rounded border-amber-300 bg-blue-300"
+                            className="w-full p-2  rounded border-amber-300 bg-purple-300"
                         />
                         <input type="password" placeholder="Enter Password" name="password" value={formData.password} onChange={handleChange}
-                            className="w-full p-2 rounded bg-blue-300 mt-4"
+                            className="w-full p-2 rounded bg-purple-300 mt-4"
                         />
                         <select name="role" value={formData.role} onChange={handleChange}
-                            className="w-full p-2 text-white rounded mt-3 mb-3 bg-blue-300"
+                            className="w-full p-2 text-white rounded mt-3 mb-3 bg-purple-300"
                         > <option value="member">Member</option>
                             <option value="admin">Admin</option></select>
 
-                        <button type="submit" className="w-full rounded p-2 bg-blue-400 font-semibold hover:bg-blue-500">
+                        <button type="submit" className="w-full rounded p-2 bg-purple-400 font-semibold hover:bg-purple-600">
                             SignUp
                         </button>
                         <p>if already SingUp  {"/"}</p>
